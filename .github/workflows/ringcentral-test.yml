@@ -1,0 +1,18 @@
+name: RingCentral Webhook Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send test message to RingCentral
+        run: |
+          curl -X POST "$RINGCENTRAL_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "text": "✅ Test message from GitHub Actions on branch *${{ github.ref_name }}* by *${{ github.actor }}*"
+            }'
+        env:
+          RINGCENTRAL_WEBHOOK_URL: ${{ secrets.RINGCENTRAL_WEBHOOK_URL }}
